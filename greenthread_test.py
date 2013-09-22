@@ -4,6 +4,7 @@ from eventlet.green import urllib2
 
 from eventlet_hubs import selectHub, pollHub, epollHub
 
+# Uncomment any of these modified hubs to solve the timeout problem
 #eventlet.hubs.use_hub(selectHub)
 #eventlet.hubs.use_hub(pollHub)
 #eventlet.hubs.use_hub(epollHub)
@@ -20,10 +21,10 @@ def count_url(url):
         with eventlet.Timeout(3):
             body = urllib2.urlopen(url).read()  # takes less than 3 seconds
     except eventlet.Timeout:
-        print 'timeout %s' % url # you would not expect to have timeouts - but you do
+        print 'timeout %s' % url # you would not expect to have timeouts - but we get plenty of timeouts
         return
-    print '-->done %s' % url # you would not expect to have timeouts - but you do
-    some_long_calculation()
+    print '-->done %s' % url # no timeouts
+    some_long_calculatio(n)
 
 urls = ['http://eventlet.net']*100
 pile = eventlet.GreenPile()
